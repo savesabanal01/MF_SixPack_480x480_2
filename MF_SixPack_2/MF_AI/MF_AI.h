@@ -4,6 +4,7 @@
 #include "include/AI_Bezel.h"
 #include "include/AI_Pitch_Indicator.h"
 #include "include/AI_Roll_Indicator.h"
+#include "include/AI_Background.h"
 
 
 class MF_AI
@@ -23,9 +24,14 @@ private:
  // Variables
     float rollAngle = 0;
     float pitchAngle = 0;
+    float rollAngleAverage = 0;
+    float pitchAngleAverage = 0;
     float pitchIndicatorPosition = 0;
     float rollIndicatorPosition = 0;
     uint16_t x_offset = 240;
+    uint16_t BACKLIGHT_PIN = 38;
+    bool powerSaveFlag = false;
+    uint8_t instrumentBrightness = 255;
 
     // Functions
     float scaleValue(float x, float in_min, float in_max, float out_min, float out_max);
@@ -34,4 +40,6 @@ private:
     void drawRightGauge();
     void setPitchAngle(float value);
     void setRollAngle(float value);
+    void setPowerSave(bool enabled);
+    void setInstrumentBrightness(float value);
 };

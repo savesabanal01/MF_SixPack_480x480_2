@@ -1,9 +1,9 @@
 {
     "$schema": "./mfdevice.schema.json",
     "Info": {
-      "Label": "MF_AI",
+      "Label": "Attitude Indicator",
       "Type": "MF_AI",
-      "Author": "SaveS",
+      "Author": "Save Sabanal",
       "URL": "https://github.com",
       "Version" : "1.0.0"
     },
@@ -24,6 +24,10 @@
         "id": 1,
         "label": "Roll Angle",
         "description": "$ will be displayed as Roll Angle value"
+      },      {
+        "id": 100,
+        "label": "Instrument Brightness",
+        "description": "$ will be displayed as Instrument Brightness"
       }
     ]
   }

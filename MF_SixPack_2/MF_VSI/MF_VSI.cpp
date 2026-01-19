@@ -15,7 +15,7 @@ static LGFX_Sprite bezelSpr(&canvas);
 static LGFX_Sprite needleSpr(&canvas);
 
 RunningAverage RA_VSIAngle(5);
-uint16_t VSIMessageID = -100;
+int VSIMessageID = -1;
 
 /* **********************************************************************************
     This is just the basic code to set up your custom device.
@@ -41,7 +41,7 @@ void MF_VSI::attach(uint16_t Pin3, char *init)
 
     lcd.setRotation(3);
 
-    lcd.fillScreen(TFT_GREEN);
+    lcd.fillScreen(TFT_BLACK);
     lcd.setFont(&fonts::Font4);
     delay(1000);
 
@@ -91,7 +91,7 @@ void MF_VSI::set(int16_t messageID, char *setPoint)
         break;
    case 100:
         /* code */
-        setInstrumentBrightness(atoi(setPoint));
+        setInstrumentBrightness(atof(setPoint));
         break;
     default:
         break;
@@ -125,6 +125,20 @@ void MF_VSI::drawGauge()
     drawRightGauge();
 }
 
+void MF_VSI::drawLeftGauge()
+{
+    // Draw Left Half of VSI Gauge
+
+    canvas.setPivot(240, 240);
+    needleSpr.setPivot(198, VSI_NEEDLE_HEIGHT / 2);
+    mainGaugeSpr.pushSprite(&canvas, 0, 0, BACKGROUND_COLOR);
+    needleSpr.pushRotated(&canvas, RA_VSIAngle.getAverage(), BACKGROUND_COLOR);
+    bezelSpr.pushSprite(&canvas, 0, 0, BACKGROUND_COLOR);
+
+    canvas.pushSprite(&lcd, 0, 0);
+
+}
+
 void MF_VSI::drawRightGauge()
 {
     // Draw right half
@@ -143,21 +157,6 @@ void MF_VSI::setVerticalSpeed(float value)
     verticalSpeed = value;
 }
 
-
-void MF_VSI::drawLeftGauge()
-{
-    // Draw Left Half of VSI Gauge
-
-    canvas.setPivot(240, 240);
-    needleSpr.setPivot(198, VSI_NEEDLE_HEIGHT / 2);
-    mainGaugeSpr.pushSprite(&canvas, 0, 0, BACKGROUND_COLOR);
-    needleSpr.pushRotated(&canvas, RA_VSIAngle.getAverage(), BACKGROUND_COLOR);
-    bezelSpr.pushSprite(&canvas, 0, 0, BACKGROUND_COLOR);
-
-    canvas.pushSprite(&lcd, 0, 0);
-
-}
-
 void MF_VSI::setPowerSave(bool enabled)
 {
     if (enabled) {
@@ -167,9 +166,13 @@ void MF_VSI::setPowerSave(bool enabled)
     }
 }
 
-void MF_VSI::setInstrumentBrightness(uint8_t value)
+void MF_VSI::setInstrumentBrightness(float value)
 {
-    instrumentBrightness = value;
+    float pwmOutput = 0;
+
+    instrumentBrightness = scaleValue(value, 0, 1, 100, 255);
+    pwmOutput = CIE_LIGHTNESS_TO_PWM_LUT_256_IN_8BIT_OUT[(int)instrumentBrightness]; // needed to correct PWM output due to human eye brightness perception
+    analogWrite(BACKLIGHT_PIN, pwmOutput);
 }
 
 // Scale Function
