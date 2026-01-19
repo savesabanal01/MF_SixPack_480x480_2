@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MobiflightConnector>
+  <outputs>
+    <config guid="68c5332f-bbc4-4b71-909a-e9f7675d1ba0">
+      <active>true</active>
+      <description>Vertical Speed</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.5.3.0, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/gauges/indicators/vvi_fpm_pilot" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="MF_SixPack_2/ SN-CCBA971EDA84" trigger="normal" customType="" customName="Vert Speed Ind" messageType="0" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="2dc3e9c3-95d3-42b6-92fe-0afa6b8640c8">
+      <active>true</active>
+      <description>VSI Instrument Brightness</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.5.3.0, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit/electrical/instrument_brightness" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="MF_SixPack_2/ SN-CCBA971EDA84" trigger="normal" customType="" customName="Vert Speed Ind" messageType="100" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+  </outputs>
+  <inputs>
+    <config guid="b5e46644-1427-4573-9dac-fde4b27007d0">
+      <active>true</active>
+      <description />
+    </config>
+  </inputs>
+</MobiflightConnector>
